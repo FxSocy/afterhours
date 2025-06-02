@@ -1,0 +1,59 @@
+@import "@blueprintjs/colors/lib/scss/colors.scss";
+
+.typechip {
+    width: 80px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid $dark-gray3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.type_chart_root {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    display: flex
+}
+
+$normal: #AAAA99;
+$fire: #FF4422;
+$water: #3399FF;
+$grass: #77CC55;
+$electric: #FFCC33;
+$ice: #66CCFF;
+$fighting: #BB5544;
+$poison: #AA5599;
+$ground: #DDBB55;
+$flying: #8899FF;
+$psychic: #FF5599;
+$bug: #AABB22;
+$rock: #BBAA66;
+$ghost: #6666BB;
+$dragon: #7766EE;
+$dark: #775544;
+$steel: #AAAABB;
+$fairy: #EE99EE;
+
+:export {
+    normal: $normal;
+    fire: $fire;
+    water: $water;
+    grass: $grass;
+    electric: $electric;
+    ice: $ice;
+    fighting: $fighting;
+    poison: $poison;
+    ground: $ground;
+    flying: $flying;
+    psychic: $psychic;
+    bug: $bug;
+    rock: $rock;
+    ghost: $ghost;
+    dragon: $dragon;
+    dark: $dark;
+    steel: $steel;
+    fairy: $fairy;
+}

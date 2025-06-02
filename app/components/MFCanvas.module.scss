@@ -1,0 +1,31 @@
+@import "@blueprintjs/colors/lib/scss/colors.scss";
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.canvas_root {
+    width: 100%;
+    height: 80vh;
+    background-image: conic-gradient(from var(--angle), $green2, $green3, $blue2, $blue3);
+    padding: 5px;
+    border-radius: 8px;
+    animation: 4s spin linear infinite
+}
+
+@keyframes spin {
+    from {
+        --angle: 0deg;
+    }
+
+    to {
+        --angle: 360deg;
+    }
+}
+
+.canvas_main {
+    width: 100%;
+    height: 100%;
+}
