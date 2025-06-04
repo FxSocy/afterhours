@@ -1,8 +1,6 @@
 @import "@blueprintjs/colors/lib/scss/colors.scss";
 
 .typechipbutton {
-  width: 80px;
-  height: 40px;
   border-radius: 12px;
   border: 1px solid $dark-gray3;
   display: flex;
@@ -10,6 +8,10 @@
   align-items: center;
   font-weight: bold;
   cursor: pointer;
+}
+
+.typechipbutton:hover {
+  filter: brightness(70%);
 }
 
 .typechip {
@@ -22,11 +24,8 @@
   padding: 4px;
 }
 
-.typechip:hover {
-  filter: brightness(70%);
-}
-
 .type_chart_root {
+  height: fit-content;
   padding: 8px;
   width: 100%;
   border-radius: 8px;
@@ -36,7 +35,7 @@
 
 .type_chart_header {
   width: 100%;
-  min-height: 60px;
+  min-height: 40px;
   display: flex;
   justify-content: center;
   column-gap: 8px;
@@ -77,6 +76,7 @@
   border: 2px solid $dark-gray5;
   border-radius: 10px;
   padding: 8px;
+  row-gap: 20px;
 }
 
 .results_defense {
@@ -88,12 +88,38 @@
   border: 2px solid $dark-gray5;
   border-radius: 10px;
   padding: 8px;
+  row-gap: 10px;
 }
 
 .type_group {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+  row-gap: 20px;
+}
+
+.type_effectiveness {
+  display: flex;
+  column-gap: 8px;
+  align-items: center;
+  margin-bottom: 1px;
+}
+
+.eff_chip {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.eff_group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 $normal: #aaaa99;
@@ -115,6 +141,13 @@ $dark: #775544;
 $steel: #aaaabb;
 $fairy: #ee99ee;
 
+$immune: #2e3436;
+$doubleresisted: #491212;
+$resisted: #720d0d;
+$neutral: #cecece;
+$supereffective: #4e9a06;
+$doublesupereffective: #a6eb62;
+
 :export {
   normal: $normal;
   fire: $fire;
@@ -134,4 +167,10 @@ $fairy: #ee99ee;
   dark: $dark;
   steel: $steel;
   fairy: $fairy;
+  immune: $immune;
+  doubleresisted: $doubleresisted;
+  resisted: $resisted;
+  neutral: $neutral;
+  supereffective: $supereffective;
+  doublesupereffective: $doublesupereffective;
 }
