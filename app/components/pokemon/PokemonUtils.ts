@@ -1,4 +1,3 @@
-import { keyframes } from "@emotion/react";
 import typeEffectivenessData from "../../../config/pokemon_type_chart.json";
 import { PokemonTypes } from "./PokemonTypes";
 

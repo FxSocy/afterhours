@@ -39,8 +39,8 @@ export const effectivenessColors = (eff: number) => {
       return { backgroundColor: styles.neutral, color: "#070707" };
     case 2:
       return { backgroundColor: styles.supereffective };
-    case 2:
-      return { backgroundColor: styles.doublesupereffective };
+    case 4:
+      return { backgroundColor: styles.doublesupereffective, color: "#070707" };
   }
   return "";
 };
