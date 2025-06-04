@@ -25,6 +25,7 @@
 }
 
 .type_chart_root {
+  min-height: 90vh;
   height: fit-content;
   padding: 8px;
   width: 100%;
@@ -35,15 +36,15 @@
 
 .type_chart_header {
   width: 100%;
-  min-height: 40px;
+  min-height: 70px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   column-gap: 8px;
 }
 
 .type_chart_selected_types {
   width: fit-content;
-  height: fit-content;
+  height: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
