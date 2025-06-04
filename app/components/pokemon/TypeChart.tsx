@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PokemonTypes } from "./PokemonTypes";
 import { TypeChipButton } from "./TypeChip";
 import styles from "./TypeChart.module.scss";
-import { Card, H5 } from "@blueprintjs/core";
+import { Button, Card, H5, H6 } from "@blueprintjs/core";
 import { TypeChartResults } from "./TypeChartResults";
 
 export const TypeChart = () => {
@@ -34,22 +34,35 @@ export const TypeChart = () => {
   return (
     <Card className={styles.type_chart_root}>
       <div className={styles.type_chart_header}>
-        {selectedType1 && (
-          <TypeChipButton
-            width="80px"
-            height="30px"
-            pokemonType={selectedType1}
-            handleOnClick={() => handleOnSelectedTypeClick(1)}
-          />
-        )}
-        {selectedType2 && (
-          <TypeChipButton
-            width="80px"
-            height="30px"
-            pokemonType={selectedType2}
-            handleOnClick={() => handleOnSelectedTypeClick(2)}
-          />
-        )}
+        <div className={styles.type_chart_selected_types}>
+          <H6 style={{ marginBottom: "4px" }}>Selected Types</H6>
+          <div style={{ display: "flex" }}>
+            {selectedType1 && (
+              <TypeChipButton
+                width="80px"
+                height="30px"
+                pokemonType={selectedType1}
+                handleOnClick={() => handleOnSelectedTypeClick(1)}
+              />
+            )}
+            {selectedType2 && (
+              <TypeChipButton
+                width="80px"
+                height="30px"
+                pokemonType={selectedType2}
+                handleOnClick={() => handleOnSelectedTypeClick(2)}
+              />
+            )}
+          </div>
+        </div>
+        <Button
+          icon="reset"
+          variant="minimal"
+          onClick={() => {
+            setSelectedType1(undefined);
+            setSelectedType2(undefined);
+          }}
+        />
       </div>
       <div className={styles.type_chart_main}>
         <div className={styles.type_chart_types}>
