@@ -43,7 +43,7 @@ export const TypeChartOffense = ({ pType }: { pType?: PokemonTypes }) => {
               <div className={styles.eff_group}>
                 <H6 style={{ marginBottom: "4px" }}>Supereffective</H6>
                 {typeEffectiveness.supereffective.map((ele) => (
-                  <div className={styles.type_effectiveness}>
+                  <div className={styles.type_effectiveness} key={ele}>
                     <TypeChip pokemonType={ele} height="30px" width="80px" />
                     <EffectivenessChip eff={2} />
                   </div>
@@ -54,7 +54,7 @@ export const TypeChartOffense = ({ pType }: { pType?: PokemonTypes }) => {
               <div className={styles.eff_group}>
                 <H6 style={{ marginBottom: "4px" }}>Neutral</H6>
                 {typeEffectiveness.neutral.map((ele) => (
-                  <div className={styles.type_effectiveness}>
+                  <div className={styles.type_effectiveness} key={ele}>
                     <TypeChip pokemonType={ele} height="30px" width="80px" />
                     <EffectivenessChip eff={1} />
                   </div>
@@ -65,7 +65,7 @@ export const TypeChartOffense = ({ pType }: { pType?: PokemonTypes }) => {
               <div className={styles.eff_group}>
                 <H6 style={{ marginBottom: "4px" }}>Resisted</H6>
                 {typeEffectiveness.resisted.map((ele) => (
-                  <div className={styles.type_effectiveness}>
+                  <div className={styles.type_effectiveness} key={ele}>
                     <TypeChip pokemonType={ele} height="30px" width="80px" />
                     <EffectivenessChip eff={0.5} />
                   </div>
@@ -76,7 +76,7 @@ export const TypeChartOffense = ({ pType }: { pType?: PokemonTypes }) => {
               <div className={styles.eff_group}>
                 <H6 style={{ marginBottom: "4px" }}>Immune</H6>
                 {typeEffectiveness.immunes.map((ele) => (
-                  <div className={styles.type_effectiveness}>
+                  <div className={styles.type_effectiveness} key={ele}>
                     <TypeChip pokemonType={ele} height="30px" width="80px" />
                     <EffectivenessChip eff={0} />
                   </div>
@@ -128,7 +128,7 @@ export const TypeChartDefense = ({
             <div className={styles.eff_group}>
               <H6 style={{ marginBottom: "4px" }}>Double Supereffective</H6>
               {typeDefensiveness.doublesupereffective.map((ele) => (
-                <div className={styles.type_effectiveness}>
+                <div className={styles.type_effectiveness} key={ele}>
                   <TypeChip pokemonType={ele} height="30px" width="80px" />
                   <EffectivenessChip eff={4} />
                 </div>
@@ -139,7 +139,7 @@ export const TypeChartDefense = ({
             <div className={styles.eff_group}>
               <H6 style={{ marginBottom: "4px" }}>Supereffective</H6>
               {typeDefensiveness.supereffective.map((ele) => (
-                <div className={styles.type_effectiveness}>
+                <div className={styles.type_effectiveness} key={ele}>
                   <TypeChip pokemonType={ele} height="30px" width="80px" />
                   <EffectivenessChip eff={2} />
                 </div>
@@ -150,7 +150,7 @@ export const TypeChartDefense = ({
             <div className={styles.eff_group}>
               <H6 style={{ marginBottom: "4px" }}>Neutral</H6>
               {typeDefensiveness.neutral.map((ele) => (
-                <div className={styles.type_effectiveness}>
+                <div className={styles.type_effectiveness} key={ele}>
                   <TypeChip pokemonType={ele} height="30px" width="80px" />
                   <EffectivenessChip eff={1} />
                 </div>
@@ -161,7 +161,7 @@ export const TypeChartDefense = ({
             <div className={styles.eff_group}>
               <H6 style={{ marginBottom: "4px" }}>Resisted</H6>
               {typeDefensiveness.resisted.map((ele) => (
-                <div className={styles.type_effectiveness}>
+                <div className={styles.type_effectiveness} key={ele}>
                   <TypeChip pokemonType={ele} height="30px" width="80px" />
                   <EffectivenessChip eff={0.5} />
                 </div>
@@ -172,7 +172,7 @@ export const TypeChartDefense = ({
             <div className={styles.eff_group}>
               <H6 style={{ marginBottom: "4px" }}>Double Resisted</H6>
               {typeDefensiveness.doubleresisted.map((ele) => (
-                <div className={styles.type_effectiveness}>
+                <div className={styles.type_effectiveness} key={ele}>
                   <TypeChip pokemonType={ele} height="30px" width="80px" />
                   <EffectivenessChip eff={0.25} />
                 </div>
@@ -184,7 +184,7 @@ export const TypeChartDefense = ({
               <div className={styles.eff_group}>
                 <H6 style={{ marginBottom: "4px" }}>Immune</H6>
                 {typeDefensiveness.immunes.map((ele) => (
-                  <div className={styles.type_effectiveness}>
+                  <div className={styles.type_effectiveness} key={ele}>
                     <TypeChip pokemonType={ele} height="30px" width="80px" />
                     <EffectivenessChip eff={0} />
                   </div>

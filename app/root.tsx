@@ -8,6 +8,7 @@ import {
 import "normalize.css";
 import "@blueprintjs/core/lib/css/blueprint.css"
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import "@blueprintjs/select/lib/css/blueprint-select.css";
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -15,7 +16,7 @@ import { TitleNavbar } from "./components/navigation/TitleNavbar";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="bp3-dark">
+    <html lang="en" className="bp5-dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

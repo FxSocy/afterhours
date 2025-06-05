@@ -7,6 +7,11 @@ export type TypeEffectiveness = {
   strengths: string[];
 };
 
+export interface Pokemon {
+  name: string;
+  type: Array<PokemonTypes>
+}
+
 export const PokemonTypeColors: any = {
   normal: styles.normal,
   fire: styles.fire,

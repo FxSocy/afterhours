@@ -1,9 +1,15 @@
 import typeEffectivenessData from "../../../config/pokemon_type_chart.json";
-import { PokemonTypes } from "./PokemonTypes";
+import pokemon_data from "../../../config/pokemon.json"
+import { PokemonTypes, type Pokemon } from "./PokemonTypes";
 
 export const typeData = () => {
   return typeEffectivenessData;
 };
+
+export const usePokemonData = (): Array<Pokemon> => {
+  return pokemon_data as Array<Pokemon>
+}
+
 
 export interface PokemonTypeEffectivenessType {
   normal: number;
