@@ -55,14 +55,6 @@ export const TypeChart = () => {
             )}
           </div>
         </div>
-        <Button
-          icon="reset"
-          variant="minimal"
-          onClick={() => {
-            setSelectedType1(undefined);
-            setSelectedType2(undefined);
-          }}
-        />
       </div>
       <div className={styles.type_chart_main}>
         <div className={styles.type_chart_types}>
