@@ -4,5 +4,6 @@ export default [
   index("routes/home.tsx"),
   route("grid", "./routes/grid.tsx"),
   route("sandbox", "./routes/sandbox.tsx"),
-  route("typeChart", "./routes/typeChart.tsx")
+  route("type-calculator", "./routes/typeChart.tsx"),
+  route("pokemon-search", "./routes/pokemonSearch.tsx"),
 ] satisfies RouteConfig;

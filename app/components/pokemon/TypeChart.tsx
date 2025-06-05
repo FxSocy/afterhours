@@ -4,7 +4,11 @@ import { TypeChipButton } from "./TypeChip";
 import styles from "./TypeChart.module.scss";
 import { Button, Card, H5, H6, MenuItem } from "@blueprintjs/core";
 import { TypeChartResults } from "./TypeChartResults";
-import { Select, type ItemPredicate, type ItemRenderer } from "@blueprintjs/select";
+import {
+  Select,
+  type ItemPredicate,
+  type ItemRenderer,
+} from "@blueprintjs/select";
 import { usePokemonData } from "./PokemonUtils";
 
 export const TypeChart = () => {
@@ -35,10 +39,13 @@ export const TypeChart = () => {
   };
 
   const filterPokemon: ItemPredicate<Pokemon> = (query, pokemon, _index) => {
-    return pokemon.name.toLowerCase().includes(query.toLowerCase())
+    return pokemon.name.toLowerCase().includes(query.toLowerCase());
   };
 
-  const renderPokemon: ItemRenderer<Pokemon> = (pokemon, { handleClick, handleFocus, modifiers }) => {
+  const renderPokemon: ItemRenderer<Pokemon> = (
+    pokemon,
+    { handleClick, handleFocus, modifiers }
+  ) => {
     if (!modifiers.matchesPredicate) {
       return null;
     }
@@ -57,11 +64,11 @@ export const TypeChart = () => {
   };
 
   const handleSetSelectedPokemon = (selected: Pokemon) => {
-    console.log(selected)
-    setSelectedPokemon(selected)
-  }
+    console.log(selected);
+    setSelectedPokemon(selected);
+  };
 
-  const pokemonData = usePokemonData()
+  const pokemonData = usePokemonData();
 
   return (
     <Card className={styles.type_chart_root}>
@@ -85,23 +92,6 @@ export const TypeChart = () => {
                 handleOnClick={() => handleOnSelectedTypeClick(2)}
               />
             )}
-          </div>
-        </div>
-        <div className={styles.type_chart_selected_types}>
-          <div style={{ display: "grid", gridTemplateColumns: "3fr 1fr", alignItems: "center" }}>
-            <H5 style={{ marginBottom: "0px" }}>{selectedPokemon?.name ?? ""}</H5>
-            <Select
-              popoverProps={{
-                transitionDuration: 0
-              }}
-              items={pokemonData}
-              itemPredicate={filterPokemon}
-              itemRenderer={renderPokemon}
-              noResults={<MenuItem disabled={true} text="No results." roleStructure="listoption" />}
-              onItemSelect={handleSetSelectedPokemon}
-            >
-              <Button endIcon="search" />
-            </Select>
           </div>
         </div>
       </div>
