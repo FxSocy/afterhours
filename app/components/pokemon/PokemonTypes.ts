@@ -9,7 +9,7 @@ export type TypeEffectiveness = {
 
 export interface Pokemon {
   name: string;
-  type: Array<PokemonTypes>
+  type: Array<PokemonTypes>;
 }
 
 export const PokemonTypeColors: any = {
@@ -30,6 +30,7 @@ export const PokemonTypeColors: any = {
   dragon: styles.dragon,
   dark: styles.dark,
   steel: styles.steel,
+  fairy: styles.fairy,
 };
 
 export const effectivenessColors = (eff: number) => {
@@ -68,4 +69,5 @@ export enum PokemonTypes {
   dragon = "dragon",
   dark = "dark",
   steel = "steel",
+  fairy = "fairy",
 }

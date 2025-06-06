@@ -39,7 +39,6 @@ export const PokemonSearch = () => {
   };
 
   const handleSetSelectedPokemon = (selected: Pokemon) => {
-    console.log(selected);
     setSelectedPokemon(selected);
   };
 
@@ -63,6 +62,7 @@ export const PokemonSearch = () => {
         </div>
         <div className={styles.search_selected_pokemon}>
           <Select
+            resetOnSelect
             popoverProps={{
               transitionDuration: 0,
             }}
