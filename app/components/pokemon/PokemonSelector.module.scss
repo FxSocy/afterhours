@@ -1,0 +1,25 @@
+@import "@blueprintjs/colors/lib/scss/colors.scss";
+
+.pokemon_selector_content {
+  margin-top: 4px;
+  height: 200px;
+  background-color: $dark-gray1;
+  border: 2px solid $dark-gray5;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.pokemon_selector_button {
+  padding: 4px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  column-gap: 8px;
+  border: 2px solid $dark-gray5;
+  border-radius: 10px;
+}
+
+.pokemon_selector_button:hover {
+  filter: brightness(85%);
+  border: 2px solid $blue3;
+}

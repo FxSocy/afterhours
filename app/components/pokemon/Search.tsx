@@ -10,6 +10,7 @@ import {
 } from "@blueprintjs/select";
 import { usePokemonData } from "./PokemonUtils";
 import { TypeChartResults } from "./TypeChartResults";
+import { PokemonSelector } from "./PokemonSelector";
 
 export const PokemonSearch = () => {
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
@@ -62,7 +63,7 @@ export const PokemonSearch = () => {
           </div>
         </div>
         <div className={styles.search_selected_pokemon}>
-          <Select
+          {/* <Select
             popoverProps={{
               transitionDuration: 0,
             }}
@@ -82,7 +83,8 @@ export const PokemonSearch = () => {
               <Icon icon="search" />
               Search for Pokemon
             </div>
-          </Select>
+          </Select> */}
+          <PokemonSelector />
         </div>
       </div>
       {selectedPokemon && (
