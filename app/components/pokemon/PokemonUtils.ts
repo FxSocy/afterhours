@@ -2,14 +2,26 @@ import typeEffectivenessDataModern from "../../../config/pokemon_type_chart_mode
 import typeEffectivenessDataGen4 from "../../../config/pokemon_type_chart_gen4.json";
 import pokemon_data_gen4 from "../../../config/pokemon_gen4.json";
 import pokemon_data_modern from "../../../config/pokemon_modern.json";
-import { PokemonTypes, type Pokemon } from "./PokemonTypes";
+import { PokemonGeneration, PokemonTypes, type Pokemon } from "./PokemonTypes";
 
-export const typeData = (modern: boolean = true) => {
-  return modern ? typeEffectivenessDataModern : typeEffectivenessDataGen4;
+export const typeData = (generation: PokemonGeneration) => {
+  switch (generation) {
+    case PokemonGeneration.MODERN:
+      return typeEffectivenessDataModern;
+    case PokemonGeneration.GEN4:
+      return typeEffectivenessDataGen4;
+  }
 };
 
-export const usePokemonData = (modern: boolean = true): Array<Pokemon> => {
-  return (modern ? pokemon_data_modern : pokemon_data_gen4) as Array<Pokemon>;
+export const usePokemonData = (
+  generation: PokemonGeneration
+): Array<Pokemon> => {
+  switch (generation) {
+    case PokemonGeneration.MODERN:
+      return pokemon_data_modern as Array<Pokemon>;
+    case PokemonGeneration.GEN4:
+      return pokemon_data_gen4 as Array<Pokemon>;
+  }
 };
 
 export interface PokemonTypeEffectivenessType {
@@ -42,9 +54,10 @@ export interface EffectivenessType {
 }
 
 export const useTypeEffectiveness = (
-  pType1?: PokemonTypes
+  pType1?: PokemonTypes,
+  generation: PokemonGeneration = PokemonGeneration.MODERN
 ): EffectivenessType => {
-  const td: any = typeData(false);
+  const td: any = typeData(generation);
   const rsp: EffectivenessType = {
     immunes: [],
     doubleresisted: [],
@@ -81,9 +94,10 @@ export const useTypeEffectiveness = (
 
 export const useTypeDefensiveness = (
   pType1?: PokemonTypes,
-  pType2?: PokemonTypes
+  pType2?: PokemonTypes,
+  generation: PokemonGeneration = PokemonGeneration.MODERN
 ): EffectivenessType => {
-  const td: any = typeData(false);
+  const td: any = typeData(generation);
   const rsp: EffectivenessType = {
     immunes: [],
     doubleresisted: [],

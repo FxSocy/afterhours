@@ -6,13 +6,16 @@ import {
   ScrollRestoration,
 } from "react-router";
 import "normalize.css";
-import "@blueprintjs/core/lib/css/blueprint.css"
+import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "@blueprintjs/select/lib/css/blueprint-select.css";
 
 import type { Route } from "./+types/root";
 import "./app.css";
 import { TitleNavbar } from "./components/navigation/TitleNavbar";
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
+import { FocusStyleManager } from "@blueprintjs/core";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -32,11 +35,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  FocusStyleManager.onlyShowFocusOnTabs();
   return (
-    <div>
-      <TitleNavbar />
-      <Outlet />
-    </div>
+    <Provider store={store}>
+      <div>
+        <TitleNavbar />
+        <Outlet />
+      </div>
+    </Provider>
   );
 }
 

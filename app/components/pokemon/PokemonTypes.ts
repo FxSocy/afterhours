@@ -1,5 +1,10 @@
 import styles from "./TypeChart.module.scss";
 
+export enum PokemonGeneration {
+  MODERN = "MODERN",
+  GEN4 = "GEN4",
+}
+
 export type TypeEffectiveness = {
   name: string;
   immunes: string[];

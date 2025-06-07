@@ -5,12 +5,14 @@ import React from "react";
 import { usePokemonData } from "./PokemonUtils";
 import type { Pokemon } from "./PokemonTypes";
 import { TypeChip } from "./TypeChip";
+import { useGeneration } from "~/redux/slices/searchSlice";
 
 export const PokemonSelector = ({
   setSelectedPokemon,
 }: {
   setSelectedPokemon: (pkmn: Pokemon) => void;
 }) => {
+  const generation = useGeneration();
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [highlightedItem, setHighlightedItem] = useState<number | null>(null);
@@ -21,7 +23,7 @@ export const PokemonSelector = ({
   };
 
   const filteredPokemon = useMemo(() => {
-    const data = usePokemonData(false);
+    const data = usePokemonData(generation);
     if (inputValue === "") {
       return data.slice(0, 10);
     } else {

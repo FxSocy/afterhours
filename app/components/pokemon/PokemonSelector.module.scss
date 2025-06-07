@@ -44,6 +44,10 @@
   border: 2px solid $blue5;
 }
 
+.pokemon_content_input:focus {
+  border: 2px solid $blue5;
+}
+
 .pokemon_popover_item {
   width: 100%;
   display: flex;

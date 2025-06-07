@@ -3,6 +3,7 @@ import type { PokemonTypes } from "./PokemonTypes";
 import styles from "./TypeChart.module.scss";
 import { EffectivenessChip, TypeChip } from "./TypeChip";
 import { useTypeDefensiveness, useTypeEffectiveness } from "./PokemonUtils";
+import { useGeneration } from "~/redux/slices/searchSlice";
 
 export const TypeChartResults = ({
   type1,
@@ -21,7 +22,8 @@ export const TypeChartResults = ({
 };
 
 export const TypeChartOffense = ({ pType }: { pType?: PokemonTypes }) => {
-  const typeEffectiveness = useTypeEffectiveness(pType);
+  const gen = useGeneration();
+  const typeEffectiveness = useTypeEffectiveness(pType, gen);
 
   return (
     <>
@@ -97,7 +99,8 @@ export const TypeChartDefense = ({
   pType1?: PokemonTypes;
   pType2?: PokemonTypes;
 }) => {
-  const typeDefensiveness = useTypeDefensiveness(pType1, pType2);
+  const gen = useGeneration();
+  const typeDefensiveness = useTypeDefensiveness(pType1, pType2, gen);
 
   return (
     <>

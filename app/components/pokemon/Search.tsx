@@ -6,8 +6,12 @@ import { Card, H6, Icon } from "@blueprintjs/core";
 
 import { TypeChartResults } from "./TypeChartResults";
 import { PokemonSelector } from "./PokemonSelector";
+import { useGeneration } from "~/redux/slices/searchSlice";
+import { useDispatch } from "react-redux";
 
 export const PokemonSearch = () => {
+  //const dispatch = useDispatch();
+  const generation = useGeneration();
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
 
   const handleSetSelectedPokemon = (selected: Pokemon) => {

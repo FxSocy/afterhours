@@ -6,10 +6,26 @@ import {
   NavbarGroup,
   NavbarHeading,
 } from "@blueprintjs/core";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { switchGeneration, useGeneration } from "~/redux/slices/searchSlice";
+import { PokemonGeneration } from "../pokemon/PokemonTypes";
 
 export const TitleNavbar = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const gen = useGeneration();
+
+  //TODO: change it to a selector or something else if more than 2 types of gen are supported
+  const handleSwitchGen = () => {
+    dispatch(
+      switchGeneration(
+        gen === PokemonGeneration.MODERN
+          ? PokemonGeneration.GEN4
+          : PokemonGeneration.MODERN
+      )
+    );
+  };
 
   return (
     <Navbar>
@@ -38,6 +54,16 @@ export const TitleNavbar = () => {
           variant="minimal"
           intent="primary"
           onClick={() => navigate(`/pokemon-search`)}
+        />
+      </NavbarGroup>
+      <NavbarGroup align={Alignment.END}>
+        <Button
+          title="switch data source"
+          icon="lab-test"
+          text={gen}
+          variant="minimal"
+          intent="primary"
+          onClick={handleSwitchGen}
         />
       </NavbarGroup>
     </Navbar>
