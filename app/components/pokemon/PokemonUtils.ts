@@ -1,9 +1,10 @@
-import typeEffectivenessData from "../../../config/pokemon_type_chart.json";
+import typeEffectivenessDataModern from "../../../config/pokemon_type_chart_modern.json";
+import typeEffectivenessDataGen4 from "../../../config/pokemon_type_chart_gen4.json";
 import pokemon_data from "../../../config/pokemon_platinum.json";
 import { PokemonTypes, type Pokemon } from "./PokemonTypes";
 
-export const typeData = () => {
-  return typeEffectivenessData;
+export const typeData = (modern: boolean = true) => {
+  return modern ? typeEffectivenessDataModern : typeEffectivenessDataGen4;
 };
 
 export const usePokemonData = (): Array<Pokemon> => {
