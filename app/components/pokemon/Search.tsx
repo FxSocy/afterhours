@@ -1,51 +1,18 @@
-import { useMemo, useState } from "react";
-import { PokemonTypes, type Pokemon } from "./PokemonTypes";
-import { TypeChip, TypeChipButton } from "./TypeChip";
+import { useState } from "react";
+import { type Pokemon } from "./PokemonTypes";
+import { TypeChip } from "./TypeChip";
 import styles from "./TypeChart.module.scss";
-import { Button, Card, H5, H6, Icon, MenuItem } from "@blueprintjs/core";
-import {
-  Select,
-  type ItemPredicate,
-  type ItemRenderer,
-} from "@blueprintjs/select";
-import { usePokemonData } from "./PokemonUtils";
+import { Card, H6, Icon } from "@blueprintjs/core";
+
 import { TypeChartResults } from "./TypeChartResults";
 import { PokemonSelector } from "./PokemonSelector";
 
 export const PokemonSearch = () => {
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
 
-  const filterPokemon: ItemPredicate<Pokemon> = (query, pokemon, _index) => {
-    return pokemon.name.toLowerCase().includes(query.toLowerCase());
-  };
-
-  const renderPokemon: ItemRenderer<Pokemon> = (
-    pokemon,
-    { handleClick, handleFocus, modifiers }
-  ) => {
-    if (!modifiers.matchesPredicate) {
-      return null;
-    }
-    return (
-      <MenuItem
-        active={modifiers.active}
-        disabled={modifiers.disabled}
-        key={pokemon.name}
-        onClick={handleClick}
-        onFocus={handleFocus}
-        roleStructure="listoption"
-        text={`${pokemon.name}`}
-      />
-    );
-  };
-
   const handleSetSelectedPokemon = (selected: Pokemon) => {
     setSelectedPokemon(selected);
   };
-
-  const pokemonData = useMemo(() => {
-    return usePokemonData(false);
-  }, []);
 
   return (
     <Card className={styles.type_chart_root}>
@@ -62,27 +29,7 @@ export const PokemonSearch = () => {
           </div>
         </div>
         <div className={styles.search_selected_pokemon}>
-          {/* <Select
-            popoverProps={{
-              transitionDuration: 0,
-            }}
-            items={pokemonData}
-            itemPredicate={filterPokemon}
-            itemRenderer={renderPokemon}
-            noResults={
-              <MenuItem
-                disabled={true}
-                text="No results."
-                roleStructure="listoption"
-              />
-            }
-            onItemSelect={handleSetSelectedPokemon}
-          >
-            <div className={styles.search_button_main}>
-              <Icon icon="search" />
-              Search for Pokemon
-            </div>
-          </Select> */}
+          <Icon icon="search" intent="primary" />
           <PokemonSelector setSelectedPokemon={handleSetSelectedPokemon} />
         </div>
       </div>

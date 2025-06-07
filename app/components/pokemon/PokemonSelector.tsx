@@ -46,7 +46,6 @@ export const PokemonSelector = ({
   };
 
   const handleSetSelected = (value: Pokemon) => {
-    console.log(value);
     setSelectedPokemon(value);
     setInputValue("");
     setHighlightedItem(null);
@@ -55,6 +54,9 @@ export const PokemonSelector = ({
 
   const handleKeyEvent = (k: string) => {
     switch (k) {
+      case "Escape":
+        inputRef.current?.blur();
+        return;
       case "Enter":
         if (!isPopoverOpen) {
           setIsPopoverOpen(true);
@@ -101,6 +103,7 @@ export const PokemonSelector = ({
   return (
     <>
       <Popover
+        ref={inputRef}
         isOpen={isPopoverOpen}
         positions={"bottom"}
         content={() => (
@@ -141,7 +144,6 @@ export const PokemonSelector = ({
         )}
       >
         <CustomInput
-          ref={inputRef}
           value={inputValue}
           setValue={handleUpdateFilterValue}
           onFocus={handleOnFocus}
