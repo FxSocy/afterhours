@@ -40,7 +40,6 @@ export const PokemonSearch = () => {
   };
 
   const handleSetSelectedPokemon = (selected: Pokemon) => {
-    console.log(selected);
     setSelectedPokemon(selected);
   };
 
