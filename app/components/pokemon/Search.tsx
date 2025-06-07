@@ -84,7 +84,7 @@ export const PokemonSearch = () => {
               Search for Pokemon
             </div>
           </Select> */}
-          <PokemonSelector />
+          <PokemonSelector setSelectedPokemon={handleSetSelectedPokemon} />
         </div>
       </div>
       {selectedPokemon && (

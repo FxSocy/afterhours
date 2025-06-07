@@ -1,10 +1,93 @@
-import { Card, Icon } from "@blueprintjs/core";
-import { useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Popover } from "react-tiny-popover";
 import styles from "./PokemonSelector.module.scss";
+import React from "react";
+import { usePokemonData } from "./PokemonUtils";
+import type { Pokemon } from "./PokemonTypes";
+import { TypeChip } from "./TypeChip";
 
-export const PokemonSelector = () => {
+export const PokemonSelector = ({
+  setSelectedPokemon,
+}: {
+  setSelectedPokemon: (pkmn: Pokemon) => void;
+}) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [highlightedItem, setHighlightedItem] = useState<number | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleOnFocus = () => {
+    setIsPopoverOpen(true);
+  };
+
+  const filteredPokemon = useMemo(() => {
+    const data = usePokemonData();
+    if (inputValue === "") {
+      return data.slice(0, 10);
+    } else {
+      const filter: Array<Pokemon> = [];
+      data.forEach((pkmn: Pokemon, idx: number) => {
+        if (filter.length === 10) {
+          setHighlightedItem(0);
+          return filter;
+        }
+        if (pkmn.name.toUpperCase().includes(inputValue.toUpperCase())) {
+          filter.push(pkmn);
+        }
+      });
+      if (filter.length > 0) setHighlightedItem(0);
+      return filter;
+    }
+  }, [inputValue]);
+
+  const handleUpdateFilterValue = (value: string) => {
+    setInputValue(value);
+  };
+
+  const handleSetSelected = (value: Pokemon) => {
+    inputRef.current?.blur();
+    setSelectedPokemon(value);
+    setInputValue("");
+    setHighlightedItem(null);
+    setIsPopoverOpen(false);
+  };
+
+  const handleKeyEvent = (k: string) => {
+    switch (k) {
+      case "Enter":
+        if (highlightedItem === null) setIsPopoverOpen(false);
+        else {
+          handleSetSelected(filteredPokemon[highlightedItem]);
+        }
+        break;
+      case "ArrowDown":
+        if (filteredPokemon.length > 0) {
+          if (highlightedItem === null) {
+            setHighlightedItem(0);
+          } else {
+            const nextIndex =
+              highlightedItem + 1 === filteredPokemon.length
+                ? 0
+                : highlightedItem + 1;
+            setHighlightedItem(nextIndex);
+          }
+        }
+        break;
+      case "ArrowUp":
+        if (filteredPokemon.length > 0) {
+          if (highlightedItem === null) {
+            setHighlightedItem(filteredPokemon.length);
+          } else {
+            const nextIndex =
+              highlightedItem - 1 === -1
+                ? filteredPokemon.length - 1
+                : highlightedItem - 1;
+            setHighlightedItem(nextIndex);
+          }
+        }
+        break;
+    }
+  };
 
   return (
     <>
@@ -16,19 +99,73 @@ export const PokemonSelector = () => {
           <div
             className={styles.pokemon_selector_content}
             onClick={() => setIsPopoverOpen(!isPopoverOpen)}
+            onMouseOver={() => {
+              setHighlightedItem(null);
+            }}
           >
-            Hi! I'm popover content.
+            {filteredPokemon.map((fp, idx: number) => (
+              <div
+                className={
+                  highlightedItem === null
+                    ? styles.pokemon_popover_item
+                    : highlightedItem === idx
+                    ? styles.pokemon_popover_item_highlighted
+                    : styles.pokemon_popover_item_not_highlighted
+                }
+                onMouseOver={() => setHighlightedItem(idx)}
+                onClick={() => handleSetSelected(fp)}
+              >
+                {fp.name}
+                <div style={{ display: "flex" }}>
+                  {fp &&
+                    fp.type.map((pt) => (
+                      <TypeChip
+                        width="45px"
+                        height="24px"
+                        pokemonType={pt}
+                        fontSize="8px"
+                      />
+                    ))}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       >
-        <div
-          className={styles.pokemon_selector_button}
-          onClick={() => setIsPopoverOpen(!isPopoverOpen)}
-        >
-          <Icon icon="search" />
-          Search
-        </div>
+        <CustomInput
+          ref={inputRef}
+          value={inputValue}
+          setValue={handleUpdateFilterValue}
+          onFocus={handleOnFocus}
+          onFocusOut={() => setIsPopoverOpen(false)}
+          keyEventHandler={handleKeyEvent}
+        />
       </Popover>
     </>
   );
 };
+
+const CustomInput = React.forwardRef<
+  HTMLInputElement,
+  {
+    value: string;
+    setValue: (value: string) => void;
+    onFocus: () => void;
+    onFocusOut: () => void;
+    keyEventHandler: (k: string) => void;
+  }
+>((props, ref) => {
+  return (
+    <input
+      placeholder="Search"
+      className={styles.pokemon_content_input}
+      ref={ref}
+      {...props}
+      onChange={(e) => props.setValue(e.target.value)}
+      onBlur={props.onFocusOut}
+      onKeyDown={(e: any) => {
+        props.keyEventHandler(e.key);
+      }}
+    />
+  );
+});
