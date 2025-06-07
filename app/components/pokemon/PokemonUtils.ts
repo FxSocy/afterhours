@@ -66,7 +66,7 @@ export const useTypeEffectiveness = (
     supereffective: [],
     doublesupereffective: [],
   };
-  if (pType1 === undefined) return rsp;
+  if (pType1 === undefined || !td[pType1]) return rsp;
   Object.entries(td[pType1]).forEach(([key, value]) => {
     switch (value) {
       case 0:

@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PokemonTypes } from "./PokemonTypes";
 import { TypeChipButton } from "./TypeChip";
 import styles from "./TypeChart.module.scss";
 import { Card, H5, H6 } from "@blueprintjs/core";
 import { TypeChartResults } from "./TypeChartResults";
+import { useGeneration } from "~/redux/slices/searchSlice";
 
 export const TypeChart = () => {
+  const gen = useGeneration();
   const [selectedType1, setSelectedType1] = useState<PokemonTypes>();
   const [selectedType2, setSelectedType2] = useState<PokemonTypes>();
+
+  useEffect(() => {
+    setSelectedType1(undefined);
+    setSelectedType2(undefined);
+  }, [gen]);
 
   const handleSelectedType = (selected: PokemonTypes) => {
     if (selectedType1 === undefined) setSelectedType1(selected);
