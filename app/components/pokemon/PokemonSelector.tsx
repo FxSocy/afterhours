@@ -41,11 +41,11 @@ export const PokemonSelector = ({
   }, [inputValue]);
 
   const handleUpdateFilterValue = (value: string) => {
+    if (!isPopoverOpen) setIsPopoverOpen(true);
     setInputValue(value);
   };
 
   const handleSetSelected = (value: Pokemon) => {
-    inputRef.current?.blur();
     setSelectedPokemon(value);
     setInputValue("");
     setHighlightedItem(null);
@@ -55,12 +55,20 @@ export const PokemonSelector = ({
   const handleKeyEvent = (k: string) => {
     switch (k) {
       case "Enter":
+        if (!isPopoverOpen) {
+          setIsPopoverOpen(true);
+          return;
+        }
         if (highlightedItem === null) setIsPopoverOpen(false);
         else {
           handleSetSelected(filteredPokemon[highlightedItem]);
         }
         break;
       case "ArrowDown":
+        if (!isPopoverOpen) {
+          setIsPopoverOpen(true);
+          return;
+        }
         if (filteredPokemon.length > 0) {
           if (highlightedItem === null) {
             setHighlightedItem(0);
@@ -105,6 +113,7 @@ export const PokemonSelector = ({
           >
             {filteredPokemon.map((fp, idx: number) => (
               <div
+                key={fp.name}
                 className={
                   highlightedItem === null
                     ? styles.pokemon_popover_item
