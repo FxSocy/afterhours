@@ -1,14 +1,15 @@
 import typeEffectivenessDataModern from "../../../config/pokemon_type_chart_modern.json";
 import typeEffectivenessDataGen4 from "../../../config/pokemon_type_chart_gen4.json";
-import pokemon_data from "../../../config/pokemon_platinum.json";
+import pokemon_data_gen4 from "../../../config/pokemon_gen4.json";
+import pokemon_data_modern from "../../../config/pokemon_modern.json";
 import { PokemonTypes, type Pokemon } from "./PokemonTypes";
 
 export const typeData = (modern: boolean = true) => {
   return modern ? typeEffectivenessDataModern : typeEffectivenessDataGen4;
 };
 
-export const usePokemonData = (): Array<Pokemon> => {
-  return pokemon_data as Array<Pokemon>;
+export const usePokemonData = (modern: boolean = true): Array<Pokemon> => {
+  return (modern ? pokemon_data_modern : pokemon_data_gen4) as Array<Pokemon>;
 };
 
 export interface PokemonTypeEffectivenessType {
@@ -43,7 +44,7 @@ export interface EffectivenessType {
 export const useTypeEffectiveness = (
   pType1?: PokemonTypes
 ): EffectivenessType => {
-  const td: any = typeData();
+  const td: any = typeData(false);
   const rsp: EffectivenessType = {
     immunes: [],
     doubleresisted: [],
@@ -82,7 +83,7 @@ export const useTypeDefensiveness = (
   pType1?: PokemonTypes,
   pType2?: PokemonTypes
 ): EffectivenessType => {
-  const td: any = typeData();
+  const td: any = typeData(false);
   const rsp: EffectivenessType = {
     immunes: [],
     doubleresisted: [],

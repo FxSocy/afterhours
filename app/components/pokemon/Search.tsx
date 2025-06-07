@@ -44,7 +44,7 @@ export const PokemonSearch = () => {
   };
 
   const pokemonData = useMemo(() => {
-    return usePokemonData();
+    return usePokemonData(false);
   }, []);
 
   return (

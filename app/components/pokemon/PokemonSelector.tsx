@@ -21,7 +21,7 @@ export const PokemonSelector = ({
   };
 
   const filteredPokemon = useMemo(() => {
-    const data = usePokemonData();
+    const data = usePokemonData(false);
     if (inputValue === "") {
       return data.slice(0, 10);
     } else {
@@ -121,7 +121,7 @@ export const PokemonSelector = ({
                     : styles.pokemon_popover_item_not_highlighted
                 }
                 onMouseOver={() => setHighlightedItem(idx)}
-                onClick={() => handleSetSelected(fp)}
+                onMouseDown={() => handleSetSelected(fp)}
               >
                 {fp.name}
                 <div style={{ display: "flex" }}>
@@ -145,6 +145,7 @@ export const PokemonSelector = ({
           value={inputValue}
           setValue={handleUpdateFilterValue}
           onFocus={handleOnFocus}
+          onLoseFocusEvent={() => setIsPopoverOpen(false)}
           keyEventHandler={handleKeyEvent}
         />
       </Popover>
@@ -158,6 +159,7 @@ const CustomInput = React.forwardRef<
     value: string;
     setValue: (value: string) => void;
     onFocus: () => void;
+    onLoseFocusEvent: () => void;
     keyEventHandler: (k: string) => void;
   }
 >((props, ref) => {
@@ -171,6 +173,7 @@ const CustomInput = React.forwardRef<
       onKeyDown={(e: any) => {
         props.keyEventHandler(e.key);
       }}
+      onBlur={props.onLoseFocusEvent}
     />
   );
 });
