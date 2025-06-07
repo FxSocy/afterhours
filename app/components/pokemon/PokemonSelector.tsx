@@ -46,6 +46,7 @@ export const PokemonSelector = ({
   };
 
   const handleSetSelected = (value: Pokemon) => {
+    console.log(value);
     setSelectedPokemon(value);
     setInputValue("");
     setHighlightedItem(null);
@@ -102,11 +103,9 @@ export const PokemonSelector = ({
       <Popover
         isOpen={isPopoverOpen}
         positions={"bottom"}
-        onClickOutside={() => setIsPopoverOpen(false)}
         content={() => (
           <div
             className={styles.pokemon_selector_content}
-            onClick={() => setIsPopoverOpen(!isPopoverOpen)}
             onMouseOver={() => {
               setHighlightedItem(null);
             }}
@@ -146,7 +145,6 @@ export const PokemonSelector = ({
           value={inputValue}
           setValue={handleUpdateFilterValue}
           onFocus={handleOnFocus}
-          onFocusOut={() => setIsPopoverOpen(false)}
           keyEventHandler={handleKeyEvent}
         />
       </Popover>
@@ -160,7 +158,6 @@ const CustomInput = React.forwardRef<
     value: string;
     setValue: (value: string) => void;
     onFocus: () => void;
-    onFocusOut: () => void;
     keyEventHandler: (k: string) => void;
   }
 >((props, ref) => {
@@ -171,7 +168,6 @@ const CustomInput = React.forwardRef<
       ref={ref}
       {...props}
       onChange={(e) => props.setValue(e.target.value)}
-      onBlur={props.onFocusOut}
       onKeyDown={(e: any) => {
         props.keyEventHandler(e.key);
       }}
