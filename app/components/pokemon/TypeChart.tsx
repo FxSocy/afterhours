@@ -68,6 +68,7 @@ export const TypeChart = () => {
           <H5>Types</H5>
           {Object.values(PokemonTypes).map((pType: PokemonTypes) => (
             <TypeChipButton
+              key={pType}
               width="60px"
               height="30px"
               fontSize="11px"

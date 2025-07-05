@@ -6,6 +6,7 @@ import { usePokemonData } from "./PokemonUtils";
 import type { Pokemon } from "./PokemonTypes";
 import { TypeChip } from "./TypeChip";
 import { useGeneration } from "~/redux/slices/searchSlice";
+import { useHotkeys } from "@blueprintjs/core";
 
 export const PokemonSelector = ({
   setSelectedPokemon,
@@ -102,6 +103,24 @@ export const PokemonSelector = ({
     }
   };
 
+  const handleFocusSearch = () => {
+    inputRef.current?.focus();
+  };
+
+  const hotkeys = useMemo(
+    () => [
+      {
+        combo: "shift + space",
+        global: true,
+        label: "search pokemon",
+        onKeyDown: handleFocusSearch,
+      },
+    ],
+    []
+  );
+
+  const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys);
+
   return (
     <>
       <Popover
@@ -110,6 +129,8 @@ export const PokemonSelector = ({
         positions={"bottom"}
         content={() => (
           <div
+            onKeyDown={handleKeyDown}
+            onKeyUp={handleKeyUp}
             className={styles.pokemon_selector_content}
             onMouseOver={() => {
               setHighlightedItem(null);

@@ -15,7 +15,7 @@ import "./app.css";
 import { TitleNavbar } from "./components/navigation/TitleNavbar";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
-import { FocusStyleManager } from "@blueprintjs/core";
+import { FocusStyleManager, HotkeysProvider } from "@blueprintjs/core";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -38,10 +38,10 @@ export default function App() {
   FocusStyleManager.onlyShowFocusOnTabs();
   return (
     <Provider store={store}>
-      <div>
+      <HotkeysProvider>
         <TitleNavbar />
         <Outlet />
-      </div>
+      </HotkeysProvider>
     </Provider>
   );
 }

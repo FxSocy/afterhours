@@ -1,12 +1,12 @@
-@import "@blueprintjs/colors/lib/scss/colors.scss";
+@use "@blueprintjs/colors/lib/scss/colors.scss" as colors;
 
 .pokemon_selector_content {
   width: fit-content;
   height: fit-content;
   min-width: 300px;
   margin-top: 8px;
-  background-color: $dark-gray1;
-  border: 2px solid $dark-gray5;
+  background-color: colors.$dark-gray1;
+  border: 2px solid colors.$dark-gray5;
   border-radius: 10px;
   padding: 8px;
   display: flex;
@@ -22,30 +22,30 @@
   cursor: pointer;
   display: flex;
   column-gap: 8px;
-  border: 2px solid $dark-gray5;
+  border: 2px solid colors.$dark-gray5;
   border-radius: 10px;
 }
 
 .pokemon_selector_button:hover {
   filter: brightness(85%);
-  border: 2px solid $blue3;
+  border: 2px solid colors.$blue3;
 }
 
 .pokemon_content_input {
   max-width: 300px;
   width: 100%;
   height: 30px;
-  border: 2px solid $dark-gray5;
+  border: 2px solid colors.$dark-gray5;
   border-radius: 10px;
   padding: 8px;
 }
 
 .pokemon_content_input:hover {
-  border: 2px solid $blue5;
+  border: 2px solid colors.$blue5;
 }
 
 .pokemon_content_input:focus {
-  border: 2px solid $blue5;
+  border: 2px solid colors.$blue5;
 }
 
 .pokemon_popover_item {
@@ -59,7 +59,7 @@
 }
 
 .pokemon_popover_item:hover {
-  border: 2px solid $blue3;
+  border: 2px solid colors.$blue3;
   border-radius: 6px;
   margin: 0px;
 }
@@ -71,7 +71,7 @@
   align-items: center;
   cursor: pointer;
   padding: 4px;
-  border: 2px solid $blue3;
+  border: 2px solid colors.$blue3;
   border-radius: 6px;
 }
 

@@ -1,41 +1,48 @@
-@import "@blueprintjs/colors/lib/scss/colors.scss";
+@use "@blueprintjs/colors/lib/scss/colors.scss" as colors;
 
 @property --angle {
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
 .home_card_rgb {
-    width: 400px;
-    height: calc(100% + 4px);
-    background-image: conic-gradient(from var(--angle), #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
-    padding: 6px;
-    border-radius: 10px;
-    animation: 4s spin linear infinite
+  width: 400px;
+  height: calc(100% + 4px);
+  background-image: conic-gradient(
+    from var(--angle),
+    #ff4545,
+    #00ff99,
+    #006aff,
+    #ff0095,
+    #ff4545
+  );
+  padding: 6px;
+  border-radius: 10px;
+  animation: 4s spin linear infinite;
 }
 
 @keyframes spin {
-    from {
-        --angle: 0deg;
-    }
+  from {
+    --angle: 0deg;
+  }
 
-    to {
-        --angle: 360deg;
-    }
+  to {
+    --angle: 360deg;
+  }
 }
 
 .home_card {
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    row-gap: 8px;
-    padding: 2em;
-    border-radius: 10px;
-    position: relative;
-    background-color: $dark-gray2;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  row-gap: 8px;
+  padding: 2em;
+  border-radius: 10px;
+  position: relative;
+  background-color: colors.$dark-gray2;
 }
