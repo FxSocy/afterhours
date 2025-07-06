@@ -2,11 +2,11 @@ import { useMemo, useRef, useState } from "react";
 import { Popover } from "react-tiny-popover";
 import styles from "./PokemonSelector.module.scss";
 import React from "react";
-import { usePokemonData } from "./PokemonUtils";
 import type { Pokemon } from "./PokemonTypes";
 import { TypeChip } from "./TypeChip";
 import { useGeneration } from "~/redux/slices/searchSlice";
 import { useHotkeys } from "@blueprintjs/core";
+import { usePokemonData } from "~/redux/slices/pokemonDataSlice";
 
 export const PokemonSelector = ({
   setSelectedPokemon,
@@ -23,8 +23,9 @@ export const PokemonSelector = ({
     setIsPopoverOpen(true);
   };
 
+  const data = usePokemonData(generation);
+
   const filteredPokemon = useMemo(() => {
-    const data = usePokemonData(generation);
     if (inputValue === "") {
       return data.slice(0, 10);
     } else {
@@ -34,7 +35,9 @@ export const PokemonSelector = ({
           setHighlightedItem(0);
           return filter;
         }
-        if (pkmn.name.toUpperCase().includes(inputValue.toUpperCase())) {
+        const item = pkmn.name.replace(" ", "").toUpperCase();
+        const query = inputValue.replace(" ", "").toUpperCase();
+        if (item.includes(query)) {
           filter.push(pkmn);
         }
       });
@@ -154,6 +157,7 @@ export const PokemonSelector = ({
                   {fp &&
                     fp.type.map((pt) => (
                       <TypeChip
+                        key={pt}
                         width="45px"
                         height="24px"
                         pokemonType={pt}
@@ -170,7 +174,10 @@ export const PokemonSelector = ({
           value={inputValue}
           setValue={handleUpdateFilterValue}
           onFocus={handleOnFocus}
-          onLoseFocusEvent={() => setIsPopoverOpen(false)}
+          onLoseFocusEvent={() => {
+            setIsPopoverOpen(false);
+            setInputValue("");
+          }}
           keyEventHandler={handleKeyEvent}
         />
       </Popover>
@@ -190,10 +197,11 @@ const CustomInput = React.forwardRef<
 >((props, ref) => {
   return (
     <input
+      value={props.value}
       placeholder="Search"
       className={styles.pokemon_content_input}
       ref={ref}
-      {...props}
+      onFocus={props.onFocus}
       onChange={(e) => props.setValue(e.target.value)}
       onKeyDown={(e: any) => {
         props.keyEventHandler(e.key);

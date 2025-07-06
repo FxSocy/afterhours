@@ -1,7 +1,5 @@
 import typeEffectivenessDataModern from "../../../config/pokemon_type_chart_modern.json";
 import typeEffectivenessDataGen4 from "../../../config/pokemon_type_chart_gen4.json";
-import pokemon_data_gen4 from "../../../config/pokemon_gen4.json";
-import pokemon_data_modern from "../../../config/pokemon_modern.json";
 import { PokemonGeneration, PokemonTypes, type Pokemon } from "./PokemonTypes";
 
 export const typeData = (generation: PokemonGeneration) => {
@@ -10,17 +8,6 @@ export const typeData = (generation: PokemonGeneration) => {
       return typeEffectivenessDataModern;
     case PokemonGeneration.GEN4:
       return typeEffectivenessDataGen4;
-  }
-};
-
-export const usePokemonData = (
-  generation: PokemonGeneration
-): Array<Pokemon> => {
-  switch (generation) {
-    case PokemonGeneration.MODERN:
-      return pokemon_data_modern as Array<Pokemon>;
-    case PokemonGeneration.GEN4:
-      return pokemon_data_gen4 as Array<Pokemon>;
   }
 };
 

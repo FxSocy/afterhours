@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { type Pokemon } from "./PokemonTypes";
-import { TypeChip } from "./TypeChip";
+import { PokemonTypes, type Pokemon } from "./PokemonTypes";
+import { TypeChip, TypeChipButton } from "./TypeChip";
 import styles from "./TypeChart.module.scss";
-import { Card, H6, Icon } from "@blueprintjs/core";
-
+import { Card, H5, H6, Icon } from "@blueprintjs/core";
 import { TypeChartResults } from "./TypeChartResults";
 import { PokemonSelector } from "./PokemonSelector";
 import { useGeneration } from "~/redux/slices/searchSlice";
@@ -23,17 +22,24 @@ export const PokemonSearch = () => {
   return (
     <Card className={styles.type_chart_root}>
       <div className={styles.type_chart_header}>
-        <div className={styles.type_chart_selected_types}>
-          <H6 style={{ marginBottom: "4px" }}>
-            {selectedPokemon?.name?.toUpperCase() ?? ""}
-          </H6>
-          <div style={{ display: "flex" }}>
-            {selectedPokemon &&
-              selectedPokemon.type.map((pt) => (
-                <TypeChip width="80px" height="30px" pokemonType={pt} />
-              ))}
+        {selectedPokemon && (
+          <div className={styles.type_chart_selected_types}>
+            <H6 style={{ marginBottom: "4px" }}>
+              {selectedPokemon?.name?.toUpperCase() ?? ""}
+            </H6>
+            <div style={{ display: "flex" }}>
+              {selectedPokemon &&
+                selectedPokemon.type.map((pt) => (
+                  <TypeChip
+                    width="80px"
+                    height="30px"
+                    pokemonType={pt}
+                    key={pt}
+                  />
+                ))}
+            </div>
           </div>
-        </div>
+        )}
         <div className={styles.search_selected_pokemon}>
           <Icon icon="search" intent="primary" />
           <PokemonSelector setSelectedPokemon={handleSetSelectedPokemon} />

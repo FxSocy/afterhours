@@ -55,6 +55,12 @@ export const TitleNavbar = () => {
           intent="primary"
           onClick={() => navigate(`/pokemon-search`)}
         />
+        {/* <Button
+          icon="playbook"
+          variant="minimal"
+          intent="primary"
+          onClick={() => navigate(`/omnisearch`)}
+        /> */}
       </NavbarGroup>
       <NavbarGroup align={Alignment.END}>
         <Button

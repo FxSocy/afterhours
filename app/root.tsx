@@ -5,27 +5,27 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-import "normalize.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import "@blueprintjs/select/lib/css/blueprint-select.css";
 
 import type { Route } from "./+types/root";
 import "./app.css";
 import { TitleNavbar } from "./components/navigation/TitleNavbar";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
-import { FocusStyleManager, HotkeysProvider } from "@blueprintjs/core";
+import {
+  FocusStyleManager,
+  HotkeysProvider,
+  OverlaysProvider,
+} from "@blueprintjs/core";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="bp5-dark">
+    <html lang="en" className="bp6-dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
       </head>
-      <body className="bp5-dark">
+      <body className="bp6-dark">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -39,8 +39,10 @@ export default function App() {
   return (
     <Provider store={store}>
       <HotkeysProvider>
-        <TitleNavbar />
-        <Outlet />
+        <OverlaysProvider>
+          <TitleNavbar />
+          <Outlet />
+        </OverlaysProvider>
       </HotkeysProvider>
     </Provider>
   );

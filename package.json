@@ -9,8 +9,8 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@blueprintjs/core": "^5.17.5",
-    "@blueprintjs/select": "^5.3.20",
+    "@blueprintjs/core": "^6.0.0",
+    "@blueprintjs/select": "^6.0.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.4.7",
