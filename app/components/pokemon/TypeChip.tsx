@@ -61,7 +61,15 @@ export const TypeChip = ({
   );
 };
 
-export const EffectivenessChip = ({ eff }: { eff: number }) => {
+export const EffectivenessChip = ({
+  eff,
+  selected,
+  handleClick,
+}: {
+  eff: number | string;
+  selected?: boolean;
+  handleClick?: () => void;
+}) => {
   const formattedOutput = useMemo(() => {
     switch (eff) {
       case 0:
@@ -81,8 +89,12 @@ export const EffectivenessChip = ({ eff }: { eff: number }) => {
 
   return (
     <div
-      style={{ ...effectivenessColors(eff) }}
-      className={styles.eff_chip}
+      onClick={handleClick}
+      style={{
+        ...effectivenessColors(eff),
+        cursor: handleClick !== undefined ? "pointer" : undefined,
+      }}
+      className={selected ? styles.eff_chip_selected : styles.eff_chip}
       title={formattedOutput}
     >
       {eff}

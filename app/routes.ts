@@ -7,4 +7,5 @@ export default [
   route("type-calculator", "./routes/typeChart.tsx"),
   route("pokemon-search", "./routes/pokemonSearch.tsx"),
   route("omnisearch", "./routes/omnisearch.tsx"),
+  route("types-game", "./routes/typeGame.tsx"),
 ] satisfies RouteConfig;

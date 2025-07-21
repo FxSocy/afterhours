@@ -61,6 +61,12 @@ export const TitleNavbar = () => {
           intent="primary"
           onClick={() => navigate(`/omnisearch`)}
         /> */}
+        <Button
+          icon="dashboard"
+          variant="minimal"
+          intent="primary"
+          onClick={() => navigate(`/types-game`)}
+        />
       </NavbarGroup>
       <NavbarGroup align={Alignment.END}>
         <Button

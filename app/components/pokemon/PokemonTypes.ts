@@ -38,18 +38,24 @@ export const PokemonTypeColors: any = {
   fairy: styles.fairy,
 };
 
-export const effectivenessColors = (eff: number) => {
+export const effectivenessColors = (eff: number | string) => {
   switch (eff) {
+    case "0":
     case 0:
       return { backgroundColor: styles.immune };
+    case "0.25":
     case 0.25:
       return { backgroundColor: styles.doubleresisted };
+    case "0.5":
     case 0.5:
       return { backgroundColor: styles.resisted };
+    case "1":
     case 1:
       return { backgroundColor: styles.neutral, color: "#070707" };
+    case "2":
     case 2:
       return { backgroundColor: styles.supereffective };
+    case "4":
     case 4:
       return { backgroundColor: styles.doublesupereffective, color: "#070707" };
   }

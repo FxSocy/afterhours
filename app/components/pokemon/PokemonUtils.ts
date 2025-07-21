@@ -1,6 +1,15 @@
 import typeEffectivenessDataModern from "../../../config/pokemon_type_chart_modern.json";
 import typeEffectivenessDataGen4 from "../../../config/pokemon_type_chart_gen4.json";
 import { PokemonGeneration, PokemonTypes, type Pokemon } from "./PokemonTypes";
+import type {
+  TypeGameRound,
+  TypeReportCard,
+} from "~/redux/slices/typeGameSlice";
+import {
+  blankTypeEffectivenessMap,
+  type TypeEffectivenessMap,
+  type UserSingleTypeOptions,
+} from "./type_matchup_game/RunGame";
 
 export const typeData = (generation: PokemonGeneration) => {
   switch (generation) {
@@ -43,6 +52,11 @@ export interface EffectivenessType {
 export const useTypeEffectiveness = (
   pType1?: PokemonTypes,
   generation: PokemonGeneration = PokemonGeneration.MODERN
+): EffectivenessType => generateTypeEffectiveness(pType1, generation);
+
+export const generateTypeEffectiveness = (
+  pType1?: PokemonTypes,
+  generation: PokemonGeneration = PokemonGeneration.MODERN
 ): EffectivenessType => {
   const td: any = typeData(generation);
   const rsp: EffectivenessType = {
@@ -79,7 +93,27 @@ export const useTypeEffectiveness = (
   return rsp;
 };
 
+export const generateTypeEffectivenessMap = (
+  pType1?: PokemonTypes,
+  generation: PokemonGeneration = PokemonGeneration.MODERN
+): TypeEffectivenessMap => {
+  const td: any = typeData(generation);
+  const rsp: TypeEffectivenessMap = { ...blankTypeEffectivenessMap };
+  if (pType1 === undefined || !td[pType1]) return rsp;
+  Object.entries(td[pType1]).forEach(([key, value]) => {
+    rsp[key as keyof TypeEffectivenessMap] =
+      `${value}` as UserSingleTypeOptions;
+  });
+  return rsp;
+};
+
 export const useTypeDefensiveness = (
+  pType1?: PokemonTypes,
+  pType2?: PokemonTypes,
+  generation: PokemonGeneration = PokemonGeneration.MODERN
+): EffectivenessType => generateTypeDefensiveness(pType1, pType2, generation);
+
+export const generateTypeDefensiveness = (
   pType1?: PokemonTypes,
   pType2?: PokemonTypes,
   generation: PokemonGeneration = PokemonGeneration.MODERN
@@ -120,4 +154,60 @@ export const useTypeDefensiveness = (
     }
   });
   return rsp;
+};
+
+export const generateTypeDefensivenessMap = (
+  pType1?: PokemonTypes,
+  pType2?: PokemonTypes,
+  generation: PokemonGeneration = PokemonGeneration.MODERN
+): TypeEffectivenessMap => {
+  const td: any = typeData(generation);
+  const rsp: TypeEffectivenessMap = { ...blankTypeEffectivenessMap };
+  if (pType1 === undefined && pType2 === undefined) return rsp;
+  Object.entries(td).forEach(([key, value]: any) => {
+    const eff1 = pType1 ? value[pType1] : 1;
+    const eff2 = pType2 ? value[pType2] : 1;
+    const eff_comb = eff1 * eff2;
+    rsp[key as keyof TypeEffectivenessMap] =
+      `${eff_comb}` as UserSingleTypeOptions;
+  });
+  return rsp;
+};
+
+export const GenerateCompleteGameState = (): Array<TypeGameRound> => {
+  return Object.keys(PokemonTypes).map((type) => {
+    return {
+      correctAnswer: {
+        offense: generateTypeEffectivenessMap(type as PokemonTypes),
+        defense: generateTypeDefensivenessMap(type as PokemonTypes),
+      },
+      type: type as PokemonTypes,
+      userAnswer: {
+        offense: { ...blankTypeEffectivenessMap },
+        defense: { ...blankTypeEffectivenessMap },
+      },
+      reportCard: undefined,
+    };
+  });
+};
+
+export const generateReportCard = (
+  correctOffense: TypeEffectivenessMap,
+  correctDefense: TypeEffectivenessMap,
+  userOffense: TypeEffectivenessMap,
+  userDefense: TypeEffectivenessMap
+): TypeReportCard => {
+  let offense: Record<string, boolean> = {};
+  Object.keys(correctOffense).forEach((pType) => {
+    offense[pType] =
+      correctOffense[pType as keyof TypeEffectivenessMap] ===
+      userOffense[pType as keyof TypeEffectivenessMap];
+  });
+  let defense: Record<string, boolean> = {};
+  Object.keys(correctOffense).forEach((pType) => {
+    defense[pType] =
+      correctDefense[pType as keyof TypeEffectivenessMap] ===
+      userDefense[pType as keyof TypeEffectivenessMap];
+  });
+  return { offense, defense };
 };
