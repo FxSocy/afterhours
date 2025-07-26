@@ -158,23 +158,25 @@
 .eff_chip_selected {
   border: 2px solid color.$cerulean5;
   border-radius: 10px;
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  padding: 4px;
 }
 
 .eff_chip {
-  width: 30px;
+  min-width: 30px;
   height: 30px;
   border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  padding: 4px;
 }
 
 .eff_group {

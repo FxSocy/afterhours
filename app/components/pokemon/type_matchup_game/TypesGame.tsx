@@ -20,6 +20,8 @@ export const TypesGame: FC = () => {
 
   const handleSetGame = () => {
     dispatch(setGameActive(!isGameActive));
+    dispatch(setGameType("RANDOM"));
+    dispatch(startGame());
   };
 
   return (
@@ -66,21 +68,9 @@ export const GameSelector: FC = () => {
         <div style={{ width: "100%", display: "flex", columnGap: "4px" }}>
           <Button
             variant="outlined"
-            text="Complete"
-            intent="primary"
-            onClick={() => handleSelectedGameType("COMPLETE")}
-          />
-          <Button
-            variant="outlined"
             text="Random"
             intent="success"
             onClick={() => handleSelectedGameType("RANDOM")}
-          />
-          <Button
-            variant="outlined"
-            text="Custom"
-            intent="danger"
-            onClick={() => handleSelectedGameType("CUSTOM")}
           />
         </div>
       </div>

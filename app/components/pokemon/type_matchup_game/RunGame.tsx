@@ -1,10 +1,9 @@
-import { Button, Card, H5, H6, Icon } from "@blueprintjs/core";
+import { Button, Card, H4, H5, H6, Icon } from "@blueprintjs/core";
 import { useState, type FC } from "react";
 import {
   handleGoNextRound,
   submitUserAnswers,
   useActiveGameRound,
-  useActiveRoundReportCard,
   useGameFinished,
   type TypeGameRound,
 } from "~/redux/slices/typeGameSlice";
@@ -12,6 +11,14 @@ import { EffectivenessChip, TypeChip } from "../TypeChip";
 import styles from "./RunGame.module.scss";
 import type { PokemonTypes } from "../PokemonTypes";
 import { useAppDispatch } from "~/redux/store";
+import typeChipStyle from "../TypeChart.module.scss";
+import {
+  ArrowBigLeftDash,
+  ArrowBigRightDash,
+  Shield,
+  ShieldHalf,
+  Sword,
+} from "lucide-react";
 
 export type UserSingleTypeOptions = "0" | "0.5" | "1" | "2";
 
@@ -63,26 +70,21 @@ export const RunGame: FC = () => {
 
   const round = useActiveGameRound();
 
-  const [userOffenseSelections, setUserOffenseSelections] =
-    useState<TypeEffectivenessMap>({ ...blankTypeEffectivenessMap });
-  const [userDefenseeSelections, setUserDefenseSelections] =
-    useState<TypeEffectivenessMap>({ ...blankTypeEffectivenessMap });
+  const [userAnswers, setUserAnswers] = useState<TypeEffectivenessMap>({
+    ...blankTypeEffectivenessMap,
+  });
 
   const handleActionButton = () => {
-    round?.reportCard ? handleNextRound() : handleSubmitUserAnswers();
+    round?.userAnswer ? handleNextRound() : handleSubmitUserAnswers();
   };
 
   const handleSubmitUserAnswers = () => {
-    dispatch(
-      submitUserAnswers({
-        offense: userOffenseSelections,
-        defense: userDefenseeSelections,
-      })
-    );
+    dispatch(submitUserAnswers({ ...userAnswers }));
   };
 
   const handleNextRound = () => {
     dispatch(handleGoNextRound());
+    setUserAnswers({ ...blankTypeEffectivenessMap });
   };
 
   if (gameFinished) return <div>Game Finished</div>;
@@ -101,22 +103,33 @@ export const RunGame: FC = () => {
             rowGap: "4px",
           }}
         >
-          <TypeChip pokemonType={round.type} />
-          {round.reportCard === undefined ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              columnGap: "8px",
+            }}
+          >
+            <TypeChip pokemonType={round.pokemonType} />
+            {round.roundType === "OFFENSE" ? (
+              <Sword size={24} />
+            ) : (
+              <Shield size={24} />
+            )}
+            <H5 style={{ marginBottom: "0px" }}>{round.roundType}</H5>
+          </div>
+          {round.userAnswer === undefined ? (
             <GameRound
               round={round}
-              userDefenseeSelections={userDefenseeSelections}
-              userOffenseSelections={userOffenseSelections}
-              setUserDefenseSelections={setUserDefenseSelections}
-              setUserOffenseSelections={setUserOffenseSelections}
+              userSelections={userAnswers}
+              setUserSelections={setUserAnswers}
             />
           ) : (
-            <ReportCard round={round} />
+            <ReportCard {...round} />
           )}
           <Button
-            variant="minimal"
             intent="success"
-            text={round.reportCard ? "Next" : "Submit"}
+            text={round.userAnswer ? "Play Another Round!" : "Submit"}
             onClick={handleActionButton}
           />
         </div>
@@ -127,22 +140,10 @@ export const RunGame: FC = () => {
 
 export const GameRound: FC<{
   round: TypeGameRound;
-  userOffenseSelections: TypeEffectivenessMap;
-  userDefenseeSelections: TypeEffectivenessMap;
-  setUserOffenseSelections: React.Dispatch<
-    React.SetStateAction<TypeEffectivenessMap>
-  >;
-  setUserDefenseSelections: React.Dispatch<
-    React.SetStateAction<TypeEffectivenessMap>
-  >;
-}> = ({
-  round,
-  userDefenseeSelections,
-  userOffenseSelections,
-  setUserDefenseSelections,
-  setUserOffenseSelections,
-}) => {
-  if (round?.reportCard) {
+  userSelections: TypeEffectivenessMap;
+  setUserSelections: React.Dispatch<React.SetStateAction<TypeEffectivenessMap>>;
+}> = ({ round, userSelections, setUserSelections }) => {
+  if (round.userAnswer) {
     return <div></div>;
   }
   return (
@@ -150,26 +151,44 @@ export const GameRound: FC<{
       style={{
         width: "100%",
         height: "fill",
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
         columnGap: "8px",
       }}
     >
       <Card className={styles.run_game_column}>
-        <H6 style={{ marginBottom: "4px" }}>Offense</H6>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <p style={{ fontSize: "11px", marginBottom: "0px" }}>
-            what effeciveness does
-          </p>
-          <TypeChip
-            width="fit-content"
-            height="20px"
-            fontSize="10px"
-            pokemonType={round.type}
-          />
-          <p style={{ fontSize: "11px", marginBottom: "0px" }}>
-            have when attacking these types?
-          </p>
+        <div
+          style={{ display: "flex", alignItems: "center", columnGap: "2px" }}
+        >
+          {round.roundType === "OFFENSE" ? (
+            <>
+              <p style={{ fontSize: "13px", marginBottom: "0px" }}>
+                what effeciveness does
+              </p>
+              <TypeChip
+                width="fit-content"
+                height="20px"
+                fontSize="10px"
+                pokemonType={round.pokemonType}
+              />
+              <p style={{ fontSize: "13px", marginBottom: "0px" }}>
+                have when attacking these types?
+              </p>
+            </>
+          ) : (
+            <>
+              <p style={{ fontSize: "13px", marginBottom: "0px" }}>
+                what defensiveness does
+              </p>
+              <TypeChip
+                width="fit-content"
+                height="20px"
+                fontSize="10px"
+                pokemonType={round.pokemonType}
+              />
+              <p style={{ fontSize: "13px", marginBottom: "0px" }}>
+                have when hit with these types?
+              </p>
+            </>
+          )}
         </div>
         <div
           style={{
@@ -179,70 +198,53 @@ export const GameRound: FC<{
             rowGap: "2px",
           }}
         >
-          {Object.entries(userOffenseSelections).map(([key, value]) => {
+          <div
+            style={{
+              width: "100%",
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+            }}
+          >
+            <H6 style={{ justifySelf: "center" }}>Matchup</H6>
+            <H6 style={{ justifySelf: "center" }}>Your Answer</H6>
+          </div>
+          {Object.entries(userSelections).map(([key, value]) => {
             return (
               <div
                 key={key}
                 style={{
                   width: "100%",
-                  display: "flex",
-                  justifyContent: "space-around",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
                 }}
               >
-                <TypeChip pokemonType={key as PokemonTypes} />
-                <TypeOptionSelector
-                  selected={value}
-                  handleSelectEffectiveness={(eff: UserSingleTypeOptions) => {
-                    setUserOffenseSelections((selections) => {
-                      selections[key as keyof TypeEffectivenessMap] = eff;
-                      return { ...selections };
-                    });
+                <div
+                  style={{
+                    justifySelf: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    columnGap: "8px",
+                    alignItems: "center",
                   }}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </Card>
-      <Card className={styles.run_game_column}>
-        <H6 style={{ marginBottom: "4px" }}>Defense</H6>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <p style={{ fontSize: "11px", marginBottom: "0px" }}>
-            what defensiveness does
-          </p>
-          <TypeChip
-            width="fit-content"
-            height="20px"
-            fontSize="10px"
-            pokemonType={round.type}
-          />
-          <p style={{ fontSize: "11px", marginBottom: "0px" }}>
-            have when getting attacked by these types?
-          </p>
-        </div>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            rowGap: "2px",
-          }}
-        >
-          {Object.entries(userDefenseeSelections).map(([key, value]) => {
-            return (
-              <div
-                key={key}
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-around",
-                }}
-              >
-                <TypeChip pokemonType={key as PokemonTypes} />
+                >
+                  <TypeChip pokemonType={round.pokemonType} />
+                  {round.roundType === "OFFENSE" ? (
+                    <>
+                      <Sword size={24} />
+                      <ArrowBigRightDash size={24} />
+                    </>
+                  ) : (
+                    <>
+                      <ShieldHalf size={24} />
+                      <ArrowBigLeftDash size={24} />
+                    </>
+                  )}
+                  <TypeChip pokemonType={key as PokemonTypes} />
+                </div>
                 <TypeOptionSelector
                   selected={value}
                   handleSelectEffectiveness={(eff: UserSingleTypeOptions) => {
-                    setUserDefenseSelections((selections) => {
+                    setUserSelections((selections) => {
                       selections[key as keyof TypeEffectivenessMap] = eff;
                       return { ...selections };
                     });
@@ -257,115 +259,90 @@ export const GameRound: FC<{
   );
 };
 
-export const ReportCard: FC<{ round: TypeGameRound }> = ({ round }) => {
+export const ReportCard: FC<TypeGameRound> = ({
+  userAnswer,
+  correctAnswer,
+  roundType,
+  pokemonType,
+}) => {
+  if (userAnswer === undefined) return <div>fuck you typescript</div>;
   return (
     <div
       style={{
         width: "100%",
         height: "fill",
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
         columnGap: "8px",
       }}
     >
       <Card className={styles.run_game_column}>
-        <H6 style={{ marginBottom: "4px" }}>Offense</H6>
+        <H4 style={{ marginBottom: "4px" }}>Results</H4>
         <div
           style={{
             width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            rowGap: "2px",
+            display: "grid",
+            gridTemplateColumns: "3fr 1fr 1fr 1fr",
+            gap: "2px",
           }}
         >
-          {Object.entries(round.userAnswer.offense).map(([key, value]) => {
+          <H6 style={{ justifySelf: "center" }}>Type</H6>
+          <H6 style={{ justifySelf: "right", marginRight: "8px" }}>Yours</H6>
+          <H6 style={{ justifySelf: "center" }}>Correct</H6>
+          <H6 style={{ justifySelf: "left" }}>Result</H6>
+          {Object.entries(userAnswer).map(([key, value]) => {
             return (
-              <div
-                key={key}
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-around",
-                }}
-              >
-                <TypeChip pokemonType={key as PokemonTypes} />
-                {round.reportCard?.offense[
-                  key as keyof TypeEffectivenessMap
-                ] ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      columnGap: "4px",
-                    }}
-                  >
-                    <EffectivenessChip eff={value} />
-                    <Icon icon="tick" intent="success" />
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      columnGap: "4px",
-                    }}
-                  >
-                    <EffectivenessChip eff={value} />
-                    <Icon icon="cross" intent="danger" />
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </Card>
-      <Card className={styles.run_game_column}>
-        <H6 style={{ marginBottom: "4px" }}>Defense</H6>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            rowGap: "2px",
-          }}
-        >
-          {Object.entries(round.userAnswer.defense).map(([key, value]) => {
-            return (
-              <div
-                key={key}
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-around",
-                }}
-              >
-                <TypeChip pokemonType={key as PokemonTypes} />
-                {round.reportCard?.defense[
-                  key as keyof TypeEffectivenessMap
-                ] ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      columnGap: "4px",
-                    }}
-                  >
-                    <EffectivenessChip eff={value} />
-                    <Icon icon="tick" intent="success" />
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      columnGap: "4px",
-                    }}
-                  >
-                    <EffectivenessChip eff={value} />
-                    <Icon icon="cross" intent="danger" />
-                  </div>
-                )}
-              </div>
+              <>
+                <div
+                  style={{
+                    justifySelf: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    columnGap: "8px",
+                    alignItems: "center",
+                  }}
+                >
+                  <TypeChip pokemonType={pokemonType} />
+                  {roundType === "OFFENSE" ? (
+                    <>
+                      <Sword size={24} />
+                      <ArrowBigRightDash size={24} />
+                    </>
+                  ) : (
+                    <>
+                      <ShieldHalf size={24} />
+                      <ArrowBigLeftDash size={24} />
+                    </>
+                  )}
+                  <TypeChip pokemonType={key as PokemonTypes} />
+                </div>
+                <div style={{ justifySelf: "right" }}>
+                  <EffectivenessChip
+                    eff={value}
+                    selected={true}
+                    useTextLabel={true}
+                  />
+                </div>
+                <div style={{ justifySelf: "center" }}>
+                  <EffectivenessChip
+                    eff={correctAnswer[key as keyof TypeEffectivenessMap]}
+                    selected={true}
+                    useTextLabel={true}
+                  />
+                </div>
+                <Icon
+                  style={{ justifySelf: "left" }}
+                  icon={
+                    value === correctAnswer[key as keyof TypeEffectivenessMap]
+                      ? "tick"
+                      : "cross"
+                  }
+                  intent={
+                    value === correctAnswer[key as keyof TypeEffectivenessMap]
+                      ? "success"
+                      : "danger"
+                  }
+                  size={30}
+                />
+              </>
             );
           })}
         </div>
@@ -378,31 +355,38 @@ export const TypeOptionSelector: FC<{
   selected: UserSingleTypeOptions;
   handleSelectEffectiveness: (eff: UserSingleTypeOptions) => void;
 }> = ({ selected, handleSelectEffectiveness }) => {
+  const handleOptionClick = () => {
+    switch (selected) {
+      case "0":
+        handleSelectEffectiveness("0.5");
+        break;
+      case "0.5":
+        handleSelectEffectiveness("1");
+        break;
+      case "1":
+        handleSelectEffectiveness("2");
+        break;
+      case "2":
+        handleSelectEffectiveness("0");
+        break;
+    }
+  };
+
   return (
     <div
       style={{
+        justifySelf: "center",
         display: "grid",
         alignItems: "center",
-        gridTemplateColumns: "1fr auto",
         columnGap: "20px",
       }}
     >
-      <EffectivenessChip eff={selected} selected={true} />
-      <div style={{ display: "flex", columnGap: "4px", alignItems: "center" }}>
-        {["0", "0.5", "1", "2"].map((option, idx) =>
-          option !== selected ? (
-            <EffectivenessChip
-              key={idx}
-              eff={option}
-              handleClick={() =>
-                handleSelectEffectiveness(option as UserSingleTypeOptions)
-              }
-            />
-          ) : (
-            <div key={idx}></div>
-          )
-        )}
-      </div>
+      <EffectivenessChip
+        eff={selected}
+        selected={true}
+        handleClick={handleOptionClick}
+        useTextLabel={true}
+      />
     </div>
   );
 };

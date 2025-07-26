@@ -1,10 +1,7 @@
 import typeEffectivenessDataModern from "../../../config/pokemon_type_chart_modern.json";
 import typeEffectivenessDataGen4 from "../../../config/pokemon_type_chart_gen4.json";
 import { PokemonGeneration, PokemonTypes, type Pokemon } from "./PokemonTypes";
-import type {
-  TypeGameRound,
-  TypeReportCard,
-} from "~/redux/slices/typeGameSlice";
+import type { TypeGameRound } from "~/redux/slices/typeGameSlice";
 import {
   blankTypeEffectivenessMap,
   type TypeEffectivenessMap,
@@ -174,40 +171,54 @@ export const generateTypeDefensivenessMap = (
   return rsp;
 };
 
-export const GenerateCompleteGameState = (): Array<TypeGameRound> => {
-  return Object.keys(PokemonTypes).map((type) => {
-    return {
-      correctAnswer: {
-        offense: generateTypeEffectivenessMap(type as PokemonTypes),
-        defense: generateTypeDefensivenessMap(type as PokemonTypes),
-      },
-      type: type as PokemonTypes,
-      userAnswer: {
-        offense: { ...blankTypeEffectivenessMap },
-        defense: { ...blankTypeEffectivenessMap },
-      },
-      reportCard: undefined,
-    };
-  });
-};
+// export const GenerateCompleteGameState = (): Array<TypeGameRound> => {
+//   return Object.keys(PokemonTypes).map((type) => {
+//     return {
+//       correctAnswer: {
+//         offense: generateTypeEffectivenessMap(type as PokemonTypes),
+//         defense: generateTypeDefensivenessMap(type as PokemonTypes),
+//       },
+//       type: type as PokemonTypes,
+//       userAnswer: {
+//         offense: { ...blankTypeEffectivenessMap },
+//         defense: { ...blankTypeEffectivenessMap },
+//       },
+//       reportCard: undefined,
+//     };
+//   });
+// };
 
-export const generateReportCard = (
-  correctOffense: TypeEffectivenessMap,
-  correctDefense: TypeEffectivenessMap,
-  userOffense: TypeEffectivenessMap,
-  userDefense: TypeEffectivenessMap
-): TypeReportCard => {
-  let offense: Record<string, boolean> = {};
-  Object.keys(correctOffense).forEach((pType) => {
-    offense[pType] =
-      correctOffense[pType as keyof TypeEffectivenessMap] ===
-      userOffense[pType as keyof TypeEffectivenessMap];
-  });
-  let defense: Record<string, boolean> = {};
-  Object.keys(correctOffense).forEach((pType) => {
-    defense[pType] =
-      correctDefense[pType as keyof TypeEffectivenessMap] ===
-      userDefense[pType as keyof TypeEffectivenessMap];
-  });
-  return { offense, defense };
+export const pokemonTypeArray: Array<PokemonTypes> = [
+  PokemonTypes.normal,
+  PokemonTypes.fire,
+  PokemonTypes.water,
+  PokemonTypes.electric,
+  PokemonTypes.grass,
+  PokemonTypes.ice,
+  PokemonTypes.fighting,
+  PokemonTypes.poison,
+  PokemonTypes.ground,
+  PokemonTypes.flying,
+  PokemonTypes.psychic,
+  PokemonTypes.bug,
+  PokemonTypes.rock,
+  PokemonTypes.ghost,
+  PokemonTypes.dragon,
+  PokemonTypes.dark,
+  PokemonTypes.steel,
+  PokemonTypes.fairy,
+];
+
+export const generateRandomGameRound = (): TypeGameRound => {
+  const pt =
+    pokemonTypeArray[Math.floor(Math.random() * pokemonTypeArray.length)];
+  const off_def = Math.floor(Math.random() * 2);
+  return {
+    roundType: off_def === 0 ? "OFFENSE" : "DEFENSE",
+    pokemonType: pt,
+    correctAnswer:
+      off_def === 0
+        ? generateTypeEffectivenessMap(pt)
+        : generateTypeDefensivenessMap(pt),
+  };
 };

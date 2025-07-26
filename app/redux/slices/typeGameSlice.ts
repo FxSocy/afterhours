@@ -2,35 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { PokemonTypes } from "~/components/pokemon/PokemonTypes";
 import { useShallowEqualSelector } from "../store";
-import {
-  GenerateCompleteGameState,
-  generateReportCard,
-  type EffectivenessType,
-} from "~/components/pokemon/PokemonUtils";
+import { generateRandomGameRound } from "~/components/pokemon/PokemonUtils";
 import type { TypeEffectivenessMap } from "~/components/pokemon/type_matchup_game/RunGame";
 
 export type GameType = "COMPLETE" | "RANDOM" | "CUSTOM";
 
-export interface TypeInfo {
-  offense: TypeEffectivenessMap;
-  defense: TypeEffectivenessMap;
-}
-
-export interface TypeReportCard {
-  offense: Record<PokemonTypes, boolean>;
-  defense: Record<PokemonTypes, boolean>;
-}
-
 export interface TypeGameRound {
-  type: PokemonTypes;
-  correctAnswer: TypeInfo;
-  userAnswer: TypeInfo;
-  reportCard: TypeReportCard | undefined;
+  roundType: "OFFENSE" | "DEFENSE";
+  pokemonType: PokemonTypes;
+  correctAnswer: TypeEffectivenessMap;
+  userAnswer?: TypeEffectivenessMap;
 }
 
 export interface GameState {
-  activeRound: number;
-  rounds: Array<TypeGameRound>;
+  activeRound: TypeGameRound;
+  completed: Array<TypeGameRound>;
 }
 
 export interface TypeGameSlice {
@@ -60,46 +46,27 @@ export const typeGameSlice = createSlice({
     startGame: (state) => {
       switch (state.gameType) {
         case "COMPLETE":
-          state.gameState = {
-            rounds: GenerateCompleteGameState(),
-            activeRound: 0,
-          };
           break;
         case "CUSTOM":
           break;
         case "RANDOM":
+          state.gameState = {
+            activeRound: generateRandomGameRound(),
+            completed: [],
+          };
           break;
       }
     },
-    submitUserAnswers: (
-      state,
-      action: PayloadAction<{
-        offense: TypeEffectivenessMap;
-        defense: TypeEffectivenessMap;
-      }>
-    ) => {
+    submitUserAnswers: (state, action: PayloadAction<TypeEffectivenessMap>) => {
       if (state.gameState) {
-        state.gameState.rounds[state.gameState.activeRound].reportCard =
-          generateReportCard(
-            state.gameState.rounds[state.gameState.activeRound].correctAnswer
-              .offense,
-            state.gameState.rounds[state.gameState.activeRound].correctAnswer
-              .defense,
-            action.payload.offense,
-            action.payload.defense
-          );
+        state.gameState.activeRound.userAnswer = action.payload;
       }
     },
     handleGoNextRound: (state) => {
       if (state.gameState) {
-        if (
-          state.gameState?.activeRound ===
-          state.gameState?.rounds.length - 1
-        ) {
-          state.gameFinished = true;
-        } else {
-          state.gameState.activeRound += 1;
-        }
+        const round = { ...state.gameState.activeRound };
+        state.gameState.completed.push(round);
+        state.gameState.activeRound = generateRandomGameRound();
       }
     },
   },
@@ -122,21 +89,13 @@ export const useGameType = () =>
 export const useGameState = () =>
   useShallowEqualSelector((state) => state.typeGame.gameState);
 
-export const useActiveGameRound = () => {
-  const gameState = useShallowEqualSelector(
-    (state) => state.typeGame.gameState
-  );
-  if (gameState === undefined) return undefined;
-  return gameState.rounds[gameState.activeRound];
-};
+export const useActiveGameRound = () =>
+  useShallowEqualSelector((state) => state.typeGame.gameState?.activeRound);
 
-export const useActiveRoundReportCard = () => {
-  const gameState = useShallowEqualSelector(
-    (state) => state.typeGame.gameState
+export const useActiveRoundAnswers = () =>
+  useShallowEqualSelector(
+    (state) => state.typeGame.gameState?.activeRound.correctAnswer
   );
-  if (gameState === undefined) return undefined;
-  return gameState.rounds[gameState.activeRound].reportCard;
-};
 
 export const useGameFinished = () =>
   useShallowEqualSelector((state) => state.typeGame.gameFinished);

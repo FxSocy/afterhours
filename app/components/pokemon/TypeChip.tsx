@@ -65,23 +65,31 @@ export const EffectivenessChip = ({
   eff,
   selected,
   handleClick,
+  useTextLabel = false,
 }: {
   eff: number | string;
   selected?: boolean;
   handleClick?: () => void;
+  useTextLabel?: boolean;
 }) => {
   const formattedOutput = useMemo(() => {
     switch (eff) {
+      case "0":
       case 0:
         return "immune";
+      case "0.25":
       case 0.25:
         return "double resisted";
+      case "0.5":
       case 0.5:
         return "resisted";
+      case "1":
       case 1:
         return "neutral";
+      case "2":
       case 2:
         return "supereffective";
+      case "4":
       case 4:
         return "double supereffective";
     }
@@ -97,7 +105,7 @@ export const EffectivenessChip = ({
       className={selected ? styles.eff_chip_selected : styles.eff_chip}
       title={formattedOutput}
     >
-      {eff}
+      {useTextLabel ? formattedOutput : eff}
     </div>
   );
 };
