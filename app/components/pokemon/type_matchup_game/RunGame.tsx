@@ -128,6 +128,7 @@ export const RunGame: FC = () => {
             <ReportCard {...round} />
           )}
           <Button
+            style={{ borderRadius: "8px", fontWeight: "bold" }}
             intent="success"
             text={round.userAnswer ? "Play Another Round!" : "Submit"}
             onClick={handleActionButton}
@@ -379,6 +380,7 @@ export const TypeOptionSelector: FC<{
         display: "grid",
         alignItems: "center",
         columnGap: "20px",
+        userSelect: "none",
       }}
     >
       <EffectivenessChip

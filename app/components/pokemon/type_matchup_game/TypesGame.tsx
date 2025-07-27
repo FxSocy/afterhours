@@ -41,6 +41,7 @@ export const TypesGame: FC = () => {
         >
           <div>
             <Button
+              style={{ borderRadius: "8px", fontWeight: "bold" }}
               text="START"
               intent="success"
               size="large"
