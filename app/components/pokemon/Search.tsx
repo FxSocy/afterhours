@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { PokemonTypes, type Pokemon } from "./PokemonTypes";
-import { TypeChip, TypeChipButton } from "./TypeChip";
+import { type Pokemon } from "./PokemonTypes";
 import styles from "./TypeChart.module.scss";
-import { Card, H5, H6, Icon } from "@blueprintjs/core";
+import { Card, Icon } from "@blueprintjs/core";
 import { TypeChartResults } from "./TypeChartResults";
 import { PokemonSelector } from "./PokemonSelector";
 import { useGeneration } from "~/redux/slices/searchSlice";
+import PokemonImage from "./utilities/PokemonImage";
 
 export const PokemonSearch = () => {
   const gen = useGeneration();
@@ -23,21 +23,25 @@ export const PokemonSearch = () => {
     <Card className={styles.type_chart_root}>
       <div className={styles.type_chart_header}>
         {selectedPokemon && (
-          <div className={styles.type_chart_selected_types}>
-            <H6 style={{ marginBottom: "4px" }}>
-              {selectedPokemon?.name?.toUpperCase() ?? ""}
-            </H6>
-            <div style={{ display: "flex" }}>
-              {selectedPokemon &&
-                selectedPokemon.type.map((pt) => (
-                  <TypeChip
-                    width="80px"
-                    height="30px"
-                    pokemonType={pt}
-                    key={pt}
-                  />
-                ))}
-            </div>
+          <div className={styles.search_title}>
+            {/* <PokemonImage name={selectedPokemon.name} /> */}
+            <PokemonImage name="chien-pao" />
+            {/* <div className={styles.search_title_name}>
+              <H6 style={{ marginBottom: "4px" }}>
+                {selectedPokemon?.name?.toUpperCase() ?? ""}
+              </H6>
+              <div style={{ display: "flex" }}>
+                {selectedPokemon &&
+                  selectedPokemon.type.map((pt) => (
+                    <TypeChip
+                      width="80px"
+                      height="30px"
+                      pokemonType={pt}
+                      key={pt}
+                    />
+                  ))}
+              </div>
+            </div> */}
           </div>
         )}
         <div className={styles.search_selected_pokemon}>

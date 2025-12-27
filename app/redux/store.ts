@@ -9,12 +9,14 @@ import {
 import searchReducer from "../redux/slices/searchSlice";
 import dataReducer from "../redux/slices/pokemonDataSlice";
 import typeGameReducer from "../redux/slices/typeGameSlice";
+import imageReducer from "../redux/slices/pokemonImageSlice";
 
 export const store = configureStore({
   reducer: {
     search: searchReducer,
     pokemonData: dataReducer,
     typeGame: typeGameReducer,
+    image: imageReducer,
   },
 });
 
