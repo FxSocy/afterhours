@@ -24,8 +24,7 @@ export const PokemonSearch = () => {
       <div className={styles.type_chart_header}>
         {selectedPokemon && (
           <div className={styles.search_title}>
-            {/* <PokemonImage name={selectedPokemon.name} /> */}
-            <PokemonImage name="chien-pao" />
+            <PokemonImage name={selectedPokemon.name} />
             {/* <div className={styles.search_title_name}>
               <H6 style={{ marginBottom: "4px" }}>
                 {selectedPokemon?.name?.toUpperCase() ?? ""}
